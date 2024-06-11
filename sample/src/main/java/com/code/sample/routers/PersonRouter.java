@@ -44,7 +44,7 @@ public class PersonRouter {
     public RouterFunction<ServerResponse> getGender(PersonHandler personHandler) {
         logger.info("Route GET gender");
         return RouterFunctions
-                .route(GET("/api/v1/person/age").and(accept(MediaType.APPLICATION_JSON)), personHandler::getGender);
+                .route(GET("/api/v1/person/gender").and(accept(MediaType.APPLICATION_JSON)), personHandler::getGender);
     }
 
     @Bean

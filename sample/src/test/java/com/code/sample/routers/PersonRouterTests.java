@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -32,11 +34,68 @@ public class PersonRouterTests {
                 // and use the dedicated DSL to test assertions against the response
                 .expectStatus().isOk()
                 .expectBody(PersonModel.class).value(personModel -> {
+                    assertThat(personModel.getName()).isNotEmpty();
                     assertThat(personModel.getName()).isEqualTo("Tiago");
+                    assertThat(personModel.getAge()).isNotZero();
                     assertThat(personModel.getAge()).isEqualTo(20);
+                    assertThat(personModel.getGender()).isNotEmpty();
                     assertThat(personModel.getGender()).isEqualTo("M");
+                    assertThat(personModel.getAddress()).isNotEmpty();
                     assertThat(personModel.getAddress()).isEqualTo("SHIS Qi 27");
+                    assertThat(personModel.getPhone()).isNotEmpty();
                     assertThat(personModel.getPhone()).isEqualTo("6199999999");
+                });
+    }
+
+    @Test
+    public void testGetName(){
+        webTestClient
+                .get().uri("/api/v1/person/name")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).value(name -> {
+                    assertThat(name).isNotEmpty();
+                    assertThat(name).isEqualTo("Tiago");
+                });
+    }
+
+    @Test
+    public void testGetAge(){
+        webTestClient
+                .get().uri("/api/v1/person/age")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Integer.class).value(age -> {
+                    assertThat(age).isNotZero();
+                    assertThat(age).isEqualTo(20);
+                });
+    }
+
+    @Test
+    public void testGetGender(){
+        webTestClient
+                .get().uri("/api/v1/person/gender")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class).value(gender -> {
+                    assertThat(gender).isNotEmpty();
+                    assertThat(gender).isEqualTo("M");
+                });
+    }
+
+    @Test
+    public void testGetPersons(){
+        webTestClient
+                .get().uri("/api/v1/person/persons")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PersonModel[].class).value(personModels -> {
+                    assertThat(personModels).isNotEmpty();
+                    assertThat(personModels[0].getName()).isEqualTo("Tiago");
                 });
     }
 }
