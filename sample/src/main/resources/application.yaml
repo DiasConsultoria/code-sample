@@ -1,0 +1,10 @@
+#
+# Veja também propriedades comuns no arquivo acomp-compras.yaml no spring cloud config
+#
+
+# Identificação da aplicação
+app:
+  description: Microsserviço de code sample para entrevista
+info:
+  app:
+    name: code-samples
